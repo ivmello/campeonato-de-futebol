@@ -93,7 +93,6 @@ class GamesController extends Controller
             ], 422);
         }
 
-
         $game->save();
         return $this->successResponse(new GamesResource($game),'Partida ('.$game->id.') atualizada com sucesso', 200);
     }

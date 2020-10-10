@@ -14,6 +14,7 @@ class Card extends Model
         'player_id',
         'red_card',
         'yellow_card',
+        'score',
     ];
 
     public function game() {

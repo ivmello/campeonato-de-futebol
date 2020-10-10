@@ -25,6 +25,8 @@ class CreateCardsTable extends Migration
             $table->integer('red_card')->default(0);
             $table->integer('yellow_card')->default(0);
 
+            $table->integer('score')->default(0);
+
             $table->timestamps();
         });
     }

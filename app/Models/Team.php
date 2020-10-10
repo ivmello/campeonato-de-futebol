@@ -12,4 +12,12 @@ class Team extends Model
     protected $fillable = [
         'name',
     ];
+
+    public function players() {
+        return $this->hasMany('App\Models\Player');
+    }
+
+    public function countPlayers() {
+        return $this->hasMany('App\Models\Player')->whereNotNull('team_id')->count();
+    }
 }

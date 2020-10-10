@@ -86,6 +86,16 @@ class PlayersController extends Controller
             ], 422);
         }
 
+        $count_players = $team->countPlayers();
+
+        if ($count_players >= 5) {
+            return $this->errorResponse([
+                'team_id' => [
+                    'Esse time já está completo'
+                ],
+            ], 422);
+        }
+
         if (isset($form->team_id)) $player->team_id = $form->team_id;
         if (isset($form->name)) $player->name = $form->name;
         if (isset($form->cpf)) $player->cpf = $form->cpf;

@@ -19,6 +19,11 @@ class TeamsResource extends JsonResource
             'name' => $this->name,
         ];
 
+        if ($this->players()->exists()) {
+            $players = $this->players()->get();
+            $result['players'] = $players;
+        }
+
         return $result;
     }
 }

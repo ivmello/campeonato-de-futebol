@@ -12,13 +12,6 @@ class TeamsController extends Controller
 {
     use ApiResponse;
 
-    /**
-     * /teams
-     * query params:
-     *  order_field
-     *  order_direction (asc|desc)
-     *  limit
-     */
     public function index(Request $request) {
         $query = (new Team)->newQuery();
 

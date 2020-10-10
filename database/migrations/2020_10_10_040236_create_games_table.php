@@ -16,7 +16,7 @@ class CreateGamesTable extends Migration
         Schema::create('games', function (Blueprint $table) {
             $table->id();
 
-            $table->datetime('star_date');
+            $table->datetime('start_date');
             $table->datetime('end_date');
 
             $table->unsignedBigInteger('team_a_id');
@@ -25,9 +25,10 @@ class CreateGamesTable extends Migration
             $table->unsignedBigInteger('team_b_id');
             $table->foreign('team_b_id')->references('id')->on('teams')->onDelete('cascade');
 
-            $table->integer('score_team_a');
-            $table->integer('score_team_b');
-            $table->boolean('tie')->default(0);
+            $table->integer('score_team_a')->default(0);
+            $table->integer('score_team_b')->default(0);
+
+            $table->boolean('tie')->default(false);
             $table->timestamps();
         });
     }

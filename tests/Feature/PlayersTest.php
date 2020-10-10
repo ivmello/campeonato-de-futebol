@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use App\Models\Team;
 use App\Models\Player;
 
 class PlayersTest extends TestCase
@@ -21,26 +22,39 @@ class PlayersTest extends TestCase
     }
     public function testStore()
     {
-        Player::truncate();
         $response = $this->post('/api/players', [
             'name' => 'Igor Vieira de Mello',
-            'cpf' => '02206851181',
+            'cpf' => strval(rand(10000000000,99999999999)),
             'tshirt_number' => 10,
         ]);
         $response->assertStatus(201);
     }
     public function testUpdate()
     {
-        Player::truncate();
-        Player::create([
+        $player = Player::create([
             'name' => 'player teste',
-            'cpf' => '12233344456',
+            'cpf' => strval(rand(10000000000,99999999999)),
             'tshirt_number' => 1,
         ]);
-        $response = $this->put('/api/players/1', [
+        $response = $this->put('/api/players/'.$player->id, [
             'name' => 'Igor Vieira de Mello',
-            'cpf' => '02206851181',
+            'cpf' => strval(rand(10000000000,99999999999)),
             'tshirt_number' => 10,
+        ]);
+        $response->assertStatus(200);
+    }
+
+    public function testUpdateTeam()
+    {
+        $player = Player::create([
+            'name' => 'player teste',
+            'cpf' => strval(rand(10000000000,99999999999)),
+            'tshirt_number' => 1,
+        ]);
+
+        $team = Team::create(['name' => 'time de teste']);
+        $response = $this->put('/api/players/'.$player->id, [
+            'team_id' => $team->id,
         ]);
         $response->assertStatus(200);
     }

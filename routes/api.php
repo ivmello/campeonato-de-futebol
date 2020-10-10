@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TeamsController;
 use App\Http\Controllers\PlayersController;
-use App\Http\Controllers\PlayersInsideController;
+use App\Http\Controllers\GamesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,4 +30,10 @@ Route::middleware('api')->group(function() {
     Route::resource('players', PlayersController::class, ['only' =>
         ['index', 'store', 'show', 'update']
     ]);
+    Route::resource('games', GamesController::class, ['only' =>
+        ['index', 'store', 'update']
+    ]);
+    // Route::resource('games.cards', CardsController::class, ['only' =>
+    //     ['index', 'store', 'update']
+    // ]);
 });

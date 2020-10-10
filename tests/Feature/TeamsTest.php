@@ -47,12 +47,5 @@ class TeamsTest extends TestCase
             'name' => 'time de teste atualizado',
         ]);
         $response->assertStatus(200);
-
-        $team = Team::create(['name' => 'time de teste']);
-        $player = Player::create(['name' => 'time de teste', 'cpf' => '12345678901', 'tshirt_number' => 2]);
-        $response = $this->put('/api/teams/'.$team->id.'/players/' . $player->id, [
-            'team_id' => $team->id,
-        ]);
-        $response->assertStatus(200);
     }
 }

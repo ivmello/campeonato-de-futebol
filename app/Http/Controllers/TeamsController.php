@@ -63,7 +63,7 @@ class TeamsController extends Controller
         return $this->successResponse(new TeamsResource($team),'Time ('.$team->id.') atualizado com sucesso', 200);
     }
 
-    public function validations(){
+    private function validations(){
         return Validator::make(request()->all(), [
             'name' => 'required|string|max:255',
         ], [

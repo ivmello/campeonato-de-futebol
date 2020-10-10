@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\Team;
+use App\Models\Player;
 
 class TeamsTest extends TestCase
 {
@@ -44,6 +45,13 @@ class TeamsTest extends TestCase
         $team = Team::create(['name' => 'time de teste']);
         $response = $this->put('/api/teams/'.$team->id, [
             'name' => 'time de teste atualizado',
+        ]);
+        $response->assertStatus(200);
+
+        $team = Team::create(['name' => 'time de teste']);
+        $player = Player::create(['name' => 'time de teste', 'cpf' => '12345678901', 'tshirt_number' => 2]);
+        $response = $this->put('/api/teams/'.$team->id.'/players/' . $player->id, [
+            'team_id' => $team->id,
         ]);
         $response->assertStatus(200);
     }

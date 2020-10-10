@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\GamesResource;
 use App\Models\Team;
+use App\Models\Player;
 use App\Models\Game;
 
 class GamesController extends Controller
@@ -64,6 +65,56 @@ class GamesController extends Controller
 
         $game->save();
 
+        /**
+         * Depois de salvo atualiza os scores dos times para facilitar o ranking
+         * Vitórias: 3 pontos
+         * Empates: 1 ponto
+         * Derrotas: 0
+         * O score_penalty define o pontos de cartoes que serao utilizados para fins de desempate
+         */
+
+        /**
+         * Time A
+         */
+        $score_a = 0;
+
+        // vitoria
+        if ($game->score_team_a > $game->score_team_b) {
+            $score_a = 3;
+        }
+        if ($game->score_team_a < $game->score_team_b) {
+            $score_a = 0;
+        }
+        if ($game->score_team_a == $game->score_team_b) {
+            $score_a = 1;
+        }
+
+        $game->teamA()->update([
+            'score_games' => $game->teamA->score_games + $score_a,
+        ]);
+
+        /**
+         * Time B
+         */
+        $score_b = 0;
+
+        // vitoria
+        if ($game->score_team_b > $game->score_team_a) {
+            $score_b = 3;
+        }
+        if ($game->score_team_b < $game->score_team_a) {
+            $score_b = 0;
+        }
+        if ($game->score_team_b == $game->score_team_a) {
+            $score_b = 1;
+        }
+
+        $game->teamB()->update([
+            'score_games' => $game->teamB->score_games + $score_b,
+        ]);
+
+        // dd($time);
+
         return $this->successResponse(new GamesResource($game),'Partida criada com sucesso', 201);
     }
 
@@ -94,6 +145,40 @@ class GamesController extends Controller
         }
 
         $game->save();
+
+        $games = Game::all();
+        $score_a = 0;
+        $score_b = 0;
+
+        foreach($games as $game_item) {
+            if ($game_item->score_team_a > $game_item->score_team_b) {
+                $score_a += 3;
+            }
+            if ($game_item->score_team_a < $game_item->score_team_b) {
+                $score_a = 0;
+            }
+            if ($game_item->score_team_a == $game_item->score_team_b) {
+                $score_a += 1;
+            }
+
+            if ($game_item->score_team_b > $game_item->score_team_a) {
+                $score_b += 3;
+            }
+            if ($game_item->score_team_b < $game_item->score_team_a) {
+                $score_b = 0;
+            }
+            if ($game_item->score_team_b == $game_item->score_team_a) {
+                $score_b += 1;
+            }
+
+            $game_item->teamA()->update([
+                'score_games' => $score_a,
+            ]);
+            $game_item->teamB()->update([
+                'score_games' => $game_item->teamB->score_games + $score_b,
+            ]);
+        }
+
         return $this->successResponse(new GamesResource($game),'Partida ('.$game->id.') atualizada com sucesso', 200);
     }
 

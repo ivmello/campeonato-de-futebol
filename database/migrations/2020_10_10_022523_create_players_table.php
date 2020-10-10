@@ -22,6 +22,7 @@ class CreatePlayersTable extends Migration
             $table->string('name');
             $table->string('cpf')->unique();
             $table->integer('tshirt_number');
+            $table->integer('score')->default(0);
             $table->timestamps();
         });
     }

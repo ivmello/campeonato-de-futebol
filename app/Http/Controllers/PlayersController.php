@@ -56,6 +56,7 @@ class PlayersController extends Controller
         if (isset($form->name)) $player->name = $form->name;
         if (isset($form->cpf)) $player->cpf = $form->cpf;
         if (isset($form->tshirt_number)) $player->tshirt_number = $form->tshirt_number;
+        $player->score = 0;
         $player->save();
         return $this->successResponse(new PlayersResources($player),'Jogador criado com sucesso', 201);
     }

@@ -18,7 +18,7 @@ class CreateTeamsTable extends Migration
             $table->string('name');
             $table->integer('score')->default(0);
             $table->integer('score_games')->default(0);
-            $table->integer('score_penalty')->default(0);
+            $table->integer('score_cards')->default(0);
             $table->timestamps();
         });
     }

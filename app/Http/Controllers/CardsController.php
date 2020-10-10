@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\CardsResource;
 use App\Models\Card;
 use App\Models\Game;
+use App\Models\Player;
 
 class CardsController extends Controller
 {
@@ -61,6 +62,14 @@ class CardsController extends Controller
             'score' => $score,
         ]);
 
+        $card->player->team()->update([
+            'score_cards' => $card->player->team->score_cards + $score
+        ]);
+
+        $card->player()->update([
+            'score' => $card->player->score + $score
+        ]);
+
         return $this->successResponse(new CardsResource($card),'Cartão criado com sucesso', 201);
     }
 
@@ -70,6 +79,7 @@ class CardsController extends Controller
             return $this->errorResponse($validator->messages(), 422);
         }
         $form = (object) $request->all();
+
         $score = 0;
         $red_card_score = 0;
         $yellow_card_score = 0;
@@ -86,9 +96,20 @@ class CardsController extends Controller
 
         if (isset($form->red_card)) $card->red_card = $form->red_card;
         if (isset($form->yellow_card)) $card->yellow_card = $form->yellow_card;
-        $card->score = $card->score + $score;
-
+        $card->score = $score;
         $card->save();
+
+        $score_total = Card::where([
+            'player_id' => $card->player->id,
+        ])->sum('score');
+
+        $card->player->team()->update([
+            'score_cards' => $score_total
+        ]);
+
+        $card->player()->update([
+            'score' => $score_total
+        ]);
 
         return $this->successResponse(new CardsResource($card),'Cartões ('.$card->id.') atualizados com sucesso', 200);
     }

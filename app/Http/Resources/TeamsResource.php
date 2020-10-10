@@ -17,6 +17,8 @@ class TeamsResource extends JsonResource
         $result = [
             'id' => $this->id,
             'name' => $this->name,
+            'score_games' => $this->score_games,
+            'score_cards' => $this->score_cards,
         ];
 
         if ($this->players()->exists()) {

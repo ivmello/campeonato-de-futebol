@@ -20,11 +20,11 @@ class Game extends Model
     ];
 
     public function teamA() {
-        return $this->hasOne('App\Models\Team', 'team_a_id');
+        return $this->hasOne('App\Models\Team', 'id', 'team_a_id');
     }
 
     public function teamB() {
-        return $this->hasOne('App\Models\Team', 'team_b_id');
+        return $this->hasOne('App\Models\Team', 'id', 'team_b_id');
     }
 
     public function cards() {

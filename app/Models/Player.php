@@ -14,6 +14,7 @@ class Player extends Model
         'name',
         'cpf',
         'tshirt_number',
+        'score',
     ];
 
     public function team() {
@@ -22,5 +23,9 @@ class Player extends Model
 
     public function cards() {
         return $this->hasMany('App\Models\Card');
+    }
+
+    public function score() {
+        return $this->sum('cards.score');
     }
 }

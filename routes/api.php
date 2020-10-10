@@ -8,6 +8,7 @@ use App\Http\Controllers\TeamsController;
 use App\Http\Controllers\PlayersController;
 use App\Http\Controllers\GamesController;
 use App\Http\Controllers\CardsController;
+use App\Http\Controllers\RankingsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,9 +33,10 @@ Route::middleware('api')->group(function() {
         ['index', 'store', 'show', 'update']
     ]);
     Route::resource('games', GamesController::class, ['only' =>
-        ['index', 'store', 'update']
+        ['index', 'show', 'store', 'update']
     ]);
     Route::resource('games.cards', CardsController::class, ['only' =>
         ['index', 'store', 'update']
     ]);
+    Route::get('/rankings', [RankingsController::class, 'index']);
 });

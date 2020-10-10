@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PlayersResources extends JsonResource
+class RankingsResource extends JsonResource
 {
     /**
      * Transform the resource collection into an array.
@@ -16,19 +16,16 @@ class PlayersResources extends JsonResource
     {
         $result = [
             'id' => $this->id,
-            'team_id' => $this->team_id,
             'name' => $this->name,
-            'cpf' => $this->cpf,
-            'tshirt_number' => $this->tshirt_number,
-            'score' => $this->score,
+            'score_games' => $this->score_games,
+            'score_cards' => $this->score_cards,
         ];
 
-        if ($this->team()->exists()) {
-            $result['team'] = [
-                'id'  => $this->team->id,
-                'name'  => $this->team->name,
-            ];
+        if ($this->players()->exists()) {
+            $players = $this->players()->get();
+            $result['players'] = $players;
         }
+
         return $result;
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\TeamsResource;
 use App\Models\Team;
 
 class TeamsController extends Controller
@@ -32,11 +33,11 @@ class TeamsController extends Controller
         }
         $teams = $query->get();
 
-        return $this->defaultResponse($teams);
+        return $this->defaultResponse(TeamsResource::collection($teams));
     }
 
     public function show(Request $request, Team $team) {
-        return $this->defaultResponse($team,'', 200);
+        return $this->defaultResponse(new TeamsResource($team),'', 200);
     }
 
     public function store(Request $request) {
@@ -48,7 +49,7 @@ class TeamsController extends Controller
         $team = new Team();
         $team->name = $form->name;
         $team->save();
-        return $this->successResponse($team,'Time criado com sucesso', 201);
+        return $this->successResponse(new TeamsResource($team),'Time criado com sucesso', 201);
     }
 
     public function update(Request $request, Team $team) {
@@ -59,7 +60,7 @@ class TeamsController extends Controller
         $form = (object) $request->all();
         $team->name = $form->name;
         $team->save();
-        return $this->successResponse($team,'Time ('.$team->id.') atualizado com sucesso', 200);
+        return $this->successResponse(new TeamsResource($team),'Time ('.$team->id.') atualizado com sucesso', 200);
     }
 
     public function validations(){

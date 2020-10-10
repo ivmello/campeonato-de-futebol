@@ -37,7 +37,7 @@ class PlayersController extends Controller
     }
 
     public function show(Request $request, Player $player) {
-        return $this->defaultResponse($player,'', 200);
+        return $this->defaultResponse(new PlayersResources($player),'', 200);
     }
 
     public function store(Request $request) {
@@ -54,7 +54,7 @@ class PlayersController extends Controller
         $player->cpf = $form->cpf;
         $player->tshirt_number = $form->tshirt_number;
         $player->save();
-        return $this->successResponse($player,'Jogador criado com sucesso', 201);
+        return $this->successResponse(new PlayersResources($player),'Jogador criado com sucesso', 201);
     }
 
     public function update(Request $request, Player $player) {
@@ -67,7 +67,7 @@ class PlayersController extends Controller
         $player->cpf = $form->cpf;
         $player->tshirt_number = $form->tshirt_number;
         $player->save();
-        return $this->successResponse($player,'Jogador ('.$player->id.') atualizado com sucesso', 200);
+        return $this->successResponse(new PlayersResources($player),'Jogador ('.$player->id.') atualizado com sucesso', 200);
     }
 
     public function validations(){

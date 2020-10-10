@@ -35,7 +35,7 @@ class RankingsController extends Controller
         }
 
         $query->orderBy('score_games', 'DESC')->orderBy('score_cards', 'ASC')->with(array('players' => function($query) {
-            // $query->with('cards')->orderBy('cards.score', 'DESC');
+            return $query->orderBy('players.score', 'DESC');
         }));
         $teams = $query->get();
 

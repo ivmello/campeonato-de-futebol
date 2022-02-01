@@ -8,7 +8,7 @@ class HomeController extends Controller
 {
     public function index() {
         return response()->json([
-            'data' => 'Bem-vindo a API do sistema de controle de partidas de futsal da Before',
+            'data' => 'Bem-vindo a API de controle de partidas de futebol de salão',
         ]);
     }
 }
